@@ -3,11 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>NR Pay 登入</title>
-  <!-- Firebase 官方 SDK -->
+
+  <!-- Firebase 官方 CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-  <script src="firebase.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBjA9Oln59AiplMoOMrW_tzNLfV8RFRojQ",
+      authDomain: "nrpay-abbce.firebaseapp.com",
+      projectId: "nrpay-abbce",
+      storageBucket: "nrpay-abbce.firebasestorage.app",
+      messagingSenderId: "342356133578",
+      appId: "1:342356133578:web:86e13f16ae0a40be15d633"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+  </script>
 </head>
 <body>
   <h2>登入 NR Pay</h2>
