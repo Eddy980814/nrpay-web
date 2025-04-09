@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>NR Pay 登入</title>
+  <!-- Firebase 官方 SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
   <script src="firebase.js"></script>
 </head>
 <body>
@@ -13,11 +17,16 @@
 
   <script>
     function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
       firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => window.location.href = 'dashboard.html')
-        .catch(err => alert('登入失敗：' + err.message));
+        .then(() => {
+          window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+          alert("登入失敗：" + error.message);
+        });
     }
   </script>
 </body>
