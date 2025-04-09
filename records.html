@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>交易紀錄</title>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <h2>交易紀錄</h2>
+  <ul id="records"></ul>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      const db = firebase.firestore();
+      db.collection('transactions').where('from', '==', user.uid)
+        .get().then(snapshot => {
+          const list = document.getElementById('records');
+          snapshot.forEach(doc => {
+            const d = doc.data();
+            const li = document.createElement('li');
+            li.innerText = `轉給 ${d.to}：${d.amount} 元`;
+            list.appendChild(li);
+          });
+        });
+    });
+  </script>
+</body>
+</html>

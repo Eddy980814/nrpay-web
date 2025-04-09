@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>轉帳</title>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <h2>轉帳</h2>
+  <input type="text" id="target" placeholder="對方用戶 ID"><br>
+  <input type="number" id="amount" placeholder="金額"><br>
+  <input type="password" id="pin" placeholder="交易密碼"><br>
+  <button onclick="transfer()">確認轉帳</button>
+
+  <script>
+    function transfer() {
+      const uid = firebase.auth().currentUser.uid;
+      const to = document.getElementById('target').value;
+      const amount = parseInt(document.getElementById('amount').value);
+      const pin = document.getElementById('pin').value;
+
+      const db = firebase.firestore();
+      db.collection('users').doc(uid).get().then(doc => {
+        if (doc.data().transaction_pin !== pin) return alert('交易密碼錯誤');
+        if (doc.data().balance < amount) return alert('餘額不足');
+
+        db.collection('users').doc(uid).update({
+          balance: doc.data().balance - amount
+        });
+        db.collection('users').doc(to).update({
+          balance: firebase.firestore.FieldValue.increment(amount)
+        });
+        db.collection('transactions').add({
+          from: uid, to: to, amount: amount, timestamp: new Date()
+        });
+        alert('轉帳成功');
+      });
+    }
+  </script>
+</body>
+</html>

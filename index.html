@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NR Pay 登入</title>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <h2>登入 NR Pay</h2>
+  <input type="email" id="email" placeholder="Email"><br>
+  <input type="password" id="password" placeholder="密碼"><br>
+  <button onclick="login()">登入</button>
+
+  <script>
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => window.location.href = 'dashboard.html')
+        .catch(err => alert('登入失敗：' + err.message));
+    }
+  </script>
+</body>
+</html>

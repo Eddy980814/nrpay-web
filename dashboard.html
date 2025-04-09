@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NR Pay 餘額查詢</title>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <h2>歡迎使用 NR Pay</h2>
+  <p id="balance">載入中...</p>
+  <a href="transfer.html">轉帳</a> | 
+  <a href="records.html">交易紀錄</a>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) return location.href = 'index.html';
+      const db = firebase.firestore();
+      db.collection('users').doc(user.uid).get().then(doc => {
+        const data = doc.data();
+        document.getElementById('balance').innerText = 
+          `可用餘額：${data.balance} 元，保留款：${data.reserved} 元`;
+      });
+    });
+  </script>
+</body>
+</html>
