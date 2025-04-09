@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>NR Pay 登入</title>
 
-  <!-- Firebase 官方 CDN -->
+  <!-- Firebase 官方 SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
@@ -19,9 +19,14 @@
       appId: "1:342356133578:web:86e13f16ae0a40be15d633"
     };
 
-    // 初始化 Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    let app, auth;
+    try {
+      app = firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
+      console.log("[✅ Firebase 初始化成功]");
+    } catch (e) {
+      console.error("[❌ Firebase 初始化失敗]", e);
+    }
   </script>
 </head>
 <body>
@@ -35,15 +40,21 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      console.log("登入點擊，帳號：", email);
+      console.log("[⚡ 登入點擊] email:", email);
+
+      if (!firebase || !firebase.auth) {
+        console.error("[❌ Firebase auth 沒有載入]");
+        alert("Firebase 沒有正確載入！");
+        return;
+      }
 
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-          console.log("登入成功，前往 dashboard...");
+          console.log("[✅ 登入成功] 導向 dashboard.html");
           window.location.href = "dashboard.html";
         })
         .catch(error => {
-          console.error("登入失敗：", error.message);
+          console.error("[❌ 登入失敗] 錯誤：", error.message);
           alert("登入失敗：" + error.message);
         });
     }
