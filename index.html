@@ -19,6 +19,7 @@
       appId: "1:342356133578:web:86e13f16ae0a40be15d633"
     };
 
+    // 初始化 Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
   </script>
@@ -34,11 +35,15 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
+      console.log("登入點擊，帳號：", email);
+
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
+          console.log("登入成功，前往 dashboard...");
           window.location.href = "dashboard.html";
         })
         .catch(error => {
+          console.error("登入失敗：", error.message);
           alert("登入失敗：" + error.message);
         });
     }
